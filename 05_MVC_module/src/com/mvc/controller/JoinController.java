@@ -1,6 +1,8 @@
 package com.mvc.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +33,24 @@ public class JoinController extends HttpServlet {
 		// 데이터 전달
 		// 데이터 전송을 효율적으로 하기 위해 Beans(DTO) 이용(데이터를 모아놓은 class)
 		MemberDTO dto = new MemberDTO(id, pw, name, age, gender, email);
+		int success = service.join(dto);
 		
-		// 뷰에게 전달
+		// 뷰에게 전달(result.jsp)
+		String msg = "";
+		
+		if (success > 0) {
+			msg = "회원가입 성공";
+		} else {
+			msg= "회원가입 실패";
+		}
+		
+		// request에 메시지 담기
+		request.setAttribute("msg", msg);
+		// 이동할 페이지 지정
+		RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
+		// foward
+		rd.forward(request, response);
+		
 	}
 
 }

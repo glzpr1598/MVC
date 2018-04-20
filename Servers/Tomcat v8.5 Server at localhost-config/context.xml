@@ -25,4 +25,16 @@
     <!--
     <Manager pathname="" />
     -->
+    
+    <!-- DB 접속을 위한 리소스 설정 -->
+    <Resource
+    	name="jdbc/Oracle"
+    	auth="Container"
+    	type="javax.sql.DataSource"
+    	driverClassName="oracle.jdbc.driver.OracleDriver"
+    	url="jdbc:oracle:thin:@localhost:1521:xe"
+    	username="web_user"
+    	password="pass"
+    />
+    
 </Context>
