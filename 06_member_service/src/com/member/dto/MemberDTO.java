@@ -9,6 +9,10 @@ public class MemberDTO {
 	String gender;
 	String email;
 	
+	public MemberDTO() {
+		
+	}
+	
 	public MemberDTO(String id, String pw, String name, int age, String gender, String email) {
 		this.id = id;
 		this.pw = pw;
