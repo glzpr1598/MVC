@@ -2,8 +2,8 @@ package com.kh.dto;
 
 import java.sql.Date;
 
-public class PhotoDTO {
-
+public class BoardDTO {
+	
 	/*bbs 에 있는 컬럼*/
 	private int idx;
 	private String user_name;
