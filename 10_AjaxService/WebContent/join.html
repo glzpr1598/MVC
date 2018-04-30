@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script src="//code.jquery.com/jquery-3.3.1.min.js">
+		</script>
+		<style>
+			table, tr, th, td {
+            	border-collapse: collapse;
+            	padding: 5px;
+            }
+		</style>
+	</head>
+	<body>
+       	<table>
+        	<tr>
+        		<td>아이디</td>
+        		<td>
+        			<input type="text" id="id" name="id"/>
+        			<input id="overlay" type="button" value="중복 확인"/>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>비밀번호</td>
+        		<td><input type="password" id="pw" name="pw"/></td>
+        	</tr>
+        	<tr>
+        		<td>이름</td>
+        		<td><input type="text" id="name" name="name"/></td>
+        	</tr>
+        	<tr>
+        		<td>나이</td>
+        		<td><input type="text" id="age" name="age"/></td>
+        	</tr>
+        	<tr>
+        		<td>성별</td>
+        		<td>
+        			<input type="radio" id="male" name="gender" value="남"/>남성
+        			<input type="radio" id="female" name="gender" value="여"/>여성
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>이메일</td>
+        		<td><input type="text" id="email" name="email"/></td>
+        	</tr>
+        	<tr>
+        		<td colspan="2">
+        			<input id="join" type="button" value="회원가입">
+        		</td>
+        	</tr>
+       	</table>
+	</body>
+	<script>
+		// ajax 생성할 객체 미리 생성
+		var ajaxObj = {};
+		ajaxObj.type = "post";
+		ajaxObj.dataType = "json";
+		
+		var overChk = false;
+
+		function ajaxCall(ajaxObj) {
+			$.ajax(ajaxObj);
+		}
+	
+		$("#overlay").click(function() {
+			ajaxObj.url = "./overlay";
+			ajaxObj.data = {id: $("#id").val()};
+			ajaxObj.success = function(data) {
+				console.log(data);
+				// 아이디가 중복인 경우
+				if (data.overlay) {
+					alert("사용 중인 아이디입니다.");
+					$("input[name='id']").val("");
+					overChk = false;
+				} else {
+					alert("사용 가능한 아이디입니다.");
+					overChk = true;
+				}
+			};
+			ajaxObj.error = function(err) {
+				console.log(err);
+			};
+			ajaxCall(ajaxObj);
+		});
+		
+		// ID 변경 시 중복체크 다시 해야하도록
+		$("#id").change(function() {
+			overChk = false;
+		});
+		
+		// 회원가입 클릭 시 다 입력했는지 체크
+		$("#join").click(function() {
+			if (!overChk) {
+				alert("아이디 중복 확인을 해주세요.");
+				$("#id").focus(); // 포커스 이동
+			} else if ($("#pw").val() == "") {
+				alert("비밀번호를 입력해주세요.");
+				$("#pw").focus();
+			} else if ($("#name").val() == "") {
+				alert("이름을 입력해주세요.");
+				$("#name").focus();
+			} else if ($("#age").val() == "") {
+				alert("나이를 입력해주세요.");
+				$("#age").focus();
+			} else if ($("#male").checked == false && $("#female").checked == false) {
+				alert("성별을 선택해주세요.");
+				$("#male").focus();
+			} else if ($("#email").val() == "") {
+				alert("이메일을 입력해주세요.");
+				$("#email").focus();
+			} else {
+				ajaxObj.url="./join";
+				ajaxObj.data.id=$("#id").val();
+				ajaxObj.data.pw=$("#pw").val();
+				ajaxObj.data.name=$("#name").val();
+				ajaxObj.data.age=$("#age").val();
+				ajaxObj.data.gender=$("input[name='gender']:checked").val();
+				ajaxObj.data.email=$("#email").val();
+				ajaxObj.success = function(data) {
+					if (data.success > 0) {
+						alert("회원가입 완료");
+						location.href="index.html";
+					} else {
+						alert("회원가입 실패");
+					}
+				};
+				ajaxObj.error = function(e) {console.log(e);	};
+				
+				ajaxCall(ajaxObj);
+			}
+		});
+		
+		
+	</script>
+</html>
