@@ -1,14 +1,17 @@
 package com.ajax.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.ajax.dto.BoardDTO;
 import com.ajax.dto.MemberDTO;
 
 public class MemberDAO {
@@ -81,5 +84,29 @@ public class MemberDAO {
 		
 		return success;
 	}
+
+	// 로그인
+	public boolean login(String id, String pw) {
+		boolean success = false;
+		String sql = "SELECT * FROM member WHERE id=? AND pw=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				success = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			resClose();
+		}
+		
+		return success;
+	}
+
 
 }

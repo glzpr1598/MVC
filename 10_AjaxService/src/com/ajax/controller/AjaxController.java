@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.ajax.service.BoardService;
 import com.ajax.service.MemberSerivce;
 
-@WebServlet({ "/overlay", "/join", "/login", "/logout", "/list", "/detail", "/delete", "/update", "/write" })
+@WebServlet({ "/overlay", "/join", "/login", "/logout", "/list", "/detail", "/delete", "/updateForm", "/update", "/writeForm", "/write" })
 public class AjaxController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,9 @@ public class AjaxController extends HttpServlet {
 			break;
 					
 		case "/login" :
-			
+			System.out.println("로그인 요청");
+			mService = new MemberSerivce(request, response);
+			mService.login();
 			break;
 			
 		case "/logout" :
@@ -59,23 +61,44 @@ public class AjaxController extends HttpServlet {
 			break;
 			
 		case "/list" :
-			
+			System.out.println("리스트 요청");
+			bService = new BoardService(request, response);
+			bService.list();
 			break;
 			
 		case "/detail" :
-			
+			System.out.println("상세보기 요청");
+			bService = new BoardService(request, response);
+			bService.detail();
 			break;
 			
 		case "/delete" :
+			System.out.println("삭제 요청");
+			bService = new BoardService(request, response);
+			bService.delete();
+			break;
 			
+		case "/updateForm" :
+			System.out.println("수정페이지 요청");
+			bService = new BoardService(request, response);
+			bService.updateForm();
 			break;
 			
 		case "/update" :
+			System.out.println("수정 요청");
+			bService = new BoardService(request, response);
+			bService.update();
 			
+		case "/writeForm" :
+			System.out.println("글쓰기 페이지 요청");
+			bService = new BoardService(request, response);
+			bService.writeForm();
 			break;
 			
 		case "/write" :
-			
+			System.out.println("글쓰기 요청");
+			bService = new BoardService(request, response);
+			bService.write();
 			break;
 			
 		default :

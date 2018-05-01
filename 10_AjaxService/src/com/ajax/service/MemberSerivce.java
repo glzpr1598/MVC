@@ -1,11 +1,12 @@
 package com.ajax.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.SessionException;
 
 import com.ajax.dao.MemberDAO;
 import com.ajax.dto.MemberDTO;
@@ -53,5 +54,27 @@ public class MemberSerivce {
 		String json = gson.toJson(map);
 		response.getWriter().println(json);
 	}
+
+	public void login() throws IOException {
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		
+		MemberDAO dao = new MemberDAO();
+		boolean success = dao.login(id, pw);
+		
+		// 세션 set
+		if (success) {
+			request.getSession().setAttribute("loginId", id);
+		}
+		
+		// 결과 반환
+		Gson gson = new Gson();
+		HashMap<String, Boolean> map = new HashMap<>();
+		map.put("success", success);
+		String json = gson.toJson(map);
+		response.getWriter().println(json);
+	}
+
+	
 	
 }

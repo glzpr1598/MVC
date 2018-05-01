@@ -19,7 +19,7 @@
             <tr>
                 <th>아이디</th>
                 <td>
-                    <input type="text" id="userId" placeholder="아이디를 입력하세요.">
+                    <input type="text" id="userId" tabindex="1" placeholder="아이디를 입력하세요.">
                 </td>
                 <td rowspan="2">
                     <input id="btnLogin" type="button" value="로그인">
@@ -28,7 +28,7 @@
             <tr>
                 <th>비밀번호</th>
                 <td>
-                    <input type="password" id="userPw" placeholder="비밀번호를 입력하세요.">
+                    <input type="password" id="userPw" tabindex="2" placeholder="비밀번호를 입력하세요.">
                 </td>
             </tr>
             <tr>
@@ -53,7 +53,7 @@
 					console.log(data);
 					if(data.success == 1) {
 						alert("로그인 성공");
-						location.href="./main.jsp";
+						location.href="./main.html";
 					} else {
 						alert("로그인 실패");
 					}

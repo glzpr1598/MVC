@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script src="//code.jquery.com/jquery-3.3.1.min.js">
+		</script>
+		<style>
+			table, tr, th, td {
+				border: thin solid black;
+				border-collapse: collapse;
+				padding: 5px;
+			}
+			table {
+				width: 400px;
+			}
+			th {
+				width: 70px;
+			}
+			input[type="text"] {
+				width: 98%;
+			}
+			textarea {
+				width: 98%;
+				resize: none;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" id="subject"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><textarea id="content" rows="20"></textarea></td>
+			</tr>
+		</table>
+		<input type="button" id="btnWrite" value="등록"/>
+	</body>
+	<script>
+		$("#btnWrite").click(function() {
+			$.ajax({
+				url: "./write",
+				type: "post",
+				data: {
+					subject: $("#subject").val(),
+					content: $("#content").val()
+				},
+				dataType: "json",
+				success: function(data) {
+					if (data.loginId == null) {
+						alert("로그인이 필요합니다.");
+					} else {
+						alert("글이 등록되었습니다.");
+					}
+					location.href="./main.html";
+				},
+				error: function(e) {console.log(e);}
+			});
+		});
+	</script>
+</html>
